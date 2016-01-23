@@ -138,6 +138,13 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 //------------------------------------------------------------------------------------//
 
 
+/// If set to YES, the graph will be constantly showing the most recent selected circle. Default value is NO.  
+@property (nonatomic) BOOL alwaysShowSelectedCircle;
+
+/// The graphs's most recently selected circle.
+@property (strong, nonatomic, nullable) BEMCircle *selectedCircle;
+
+
 /// The graph's label font used on various axis. This property may be privately overwritten, do not expect full functionality from this property.
 @property (strong, nonatomic, nullable) UIFont *labelFont;
 

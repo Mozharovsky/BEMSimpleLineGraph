@@ -180,6 +180,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     _enableYAxisLabel = NO;
     _YAxisLabelXOffset = 0;
     _autoScaleYAxis = YES;
+    _alwaysShowSelectedCircle = NO;
     _alwaysDisplayDots = NO;
     _alwaysDisplayPopUpLabels = NO;
     _enableLeftReferenceAxisFrameLine = YES;
@@ -1179,9 +1180,12 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 #pragma mark - Data Source
 
 - (void)reloadGraph {
+    self.selectedCircle = nil;
+    
     for (UIView *subviews in self.subviews) {
         [subviews removeFromSuperview];
     }
+    
     [self drawGraph];
 //    [self setNeedsLayout];
 }
@@ -1321,6 +1325,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     closestDot = [self closestDotFromtouchInputLine:self.touchInputLine];
     closestDot.alpha = 0.8;
     
+    self.selectedCircle = closestDot;
     
     if (self.enablePopUpReport == YES && closestDot.tag >= DotFirstTag100 && closestDot.tag < DotLastTag1000 && [closestDot isKindOfClass:[BEMCircle class]] && self.alwaysDisplayPopUpLabels == NO) {
         [self setUpPopUpLabelAbovePoint:closestDot];
@@ -1355,7 +1360,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            if (self.alwaysDisplayDots == NO && self.displayDotsOnly == NO) {
+            if (self.alwaysDisplayDots == NO && self.displayDotsOnly == NO && self.alwaysShowSelectedCircle == NO) {
                 closestDot.alpha = 0;
             }
             
